@@ -3,7 +3,12 @@
 import MySQLdb
 import argparse
 import datetime
+import os
 from getpass import getpass
+
+# my modules
+from validate_inputs import valid_inputs 
+from validate_inputs import purchase_categories
 
 
 # Instantiate the parser
@@ -17,7 +22,6 @@ parser.add_argument('amount', type = float,
 parser.add_argument('category', type = str, 
                     help = 'Required float positional argument')
 
-
 # Optional positional argument
 parser.add_argument('date_purchased', type = str, nargs = '?',
                     help = 'Optional string positional argument')
@@ -26,6 +30,8 @@ parser.add_argument('date_purchased', type = str, nargs = '?',
 parser.add_argument('--comment', type = str,
                     help='Optional string argument')
 
+
+# if no date given, this function returns todays
 def getdate(args):
     if args.date_purchased == None:
         res = datetime.date.today().strftime("%Y-%m-%d")
@@ -40,6 +46,7 @@ def print_args(args):
     print('Category: ', args.category)
     print('Date:     ', date)
     print('Comment:  ', args.comment)
+    print('\n')
 
 
 def getpassword():
@@ -47,6 +54,7 @@ def getpassword():
     return pw 
 
 
+# returns a list of values in the order below
 def getvalues(args):
     vals = []
     vals.append(args.amount)
@@ -59,7 +67,7 @@ def getvalues(args):
     return vals 
 
 
-
+# returns a string with our insert query
 def gen_query(vals):
     query = "INSERT INTO purchases (amount, category, date_purchased, comment) VALUES ({0}, \'{1}\', \'{2}\', {3})".format(vals[0], vals[1], vals[2], vals[3])
     return query 
@@ -86,16 +94,22 @@ def main():
     
     print_args(args)
     chk = input("Is the above correct? (y/N)\n")
+    
     if chk != "y":
         print("Canceling new purchase insert...")
         return None
     elif chk == "y": 
         vals = getvalues(args)
-        query = gen_query(vals)
-        execute_query(query, pswd)
+        if valid_inputs(vals, purchase_categories):
+            query = gen_query(vals)
+            execute_query(query, pswd)
+        else: 
+            print("Canceling new purchase insert...")
 
 
 
 if __name__ == "__main__":
+    os.system("mysql.server start")
     main()
+    # os.system("mysql.server stop")
 
