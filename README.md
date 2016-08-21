@@ -1,0 +1,2 @@
+## Simple budget tracking application
+
