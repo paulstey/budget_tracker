@@ -73,6 +73,7 @@ def gen_query(vals):
     return query 
 
 
+
 def execute_query(query, pswd):
     # now connect to `budget` DB
     con = MySQLdb.connect(host = "localhost",    
@@ -86,6 +87,27 @@ def execute_query(query, pswd):
         print("Successfully inserted new purchase")
     except MySQLdb.IntegrityError:
         print("Failed to insert new purchase")
+
+    return con
+
+
+
+def months_totals(con, date):
+    first_of_month = date[0:8] + "01"
+    query = "SELECT category, sum(amount) FROM (SELECT * FROM purchases WHERE date_purchased >= \'{0}\') tbl1 GROUP BY category;".format(first_of_month)
+    
+    cur = con.cursor()
+    cur.execute(query)
+    rows = cur.fetchall()
+    print("\nThis month's sub-totals:\n")
+    for row in rows:
+        print(row[0].ljust(13, " "), row[1])
+    print("\n")
+
+    con.commit()
+
+
+
 
 
 def main():
@@ -102,9 +124,12 @@ def main():
         vals = getvalues(args)
         if valid_inputs(vals, purchase_categories):
             query = gen_query(vals)
-            execute_query(query, pswd)
+            con = execute_query(query, pswd)
+            months_totals(con, vals[2])
+
         else: 
             print("Canceling new purchase insert...")
+    
 
 
 
