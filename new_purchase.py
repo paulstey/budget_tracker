@@ -99,13 +99,24 @@ def months_totals(con, date):
     cur = con.cursor()
     cur.execute(query)
     rows = cur.fetchall()
-    print("\nThis month's sub-totals:\n")
+    print("\nThis month's sub-totals by category:\n")
     for row in rows:
         print(row[0].ljust(13, " "), row[1])
     print("\n")
 
     con.commit()
 
+def month_to_date_sum(con, date):
+    first_of_month = date[0:8] + "01"
+    query = "SELECT sum(amount) FROM (SELECT * FROM purchases WHERE date_purchased >= \'{0}\') tbl1;".format(first_of_month)
+
+    cur = con.cursor()
+    cur.execute(query)
+    rows = cur.fetchall()
+    print("This month's sub-total:\n")
+    for row in rows:
+        print("  ", row[0], "  ")
+    con.commit()
 
 
 
@@ -126,7 +137,7 @@ def main():
             query = gen_query(vals)
             con = execute_query(query, pswd)
             months_totals(con, vals[2])
-
+            month_to_date_sum(con, vals[2])
         else: 
             print("Canceling new purchase insert...")
     
