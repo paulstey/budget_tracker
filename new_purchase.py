@@ -101,7 +101,7 @@ def months_totals(con, date):
     rows = cur.fetchall()
     print("\nThis month's sub-totals by category:\n")
     for row in rows:
-        print(row[0].ljust(15, " "), row[1])
+        print(row[0].ljust(16, " "), row[1])
     print("\n")
 
     con.commit()
