@@ -119,6 +119,12 @@ def month_to_date_sum(con, date):
     con.commit()
 
 
+def mysql_running():
+    status = os.system("mysql.server status")
+    res = status == 0
+    return res
+
+
 
 
 def main():
@@ -145,7 +151,10 @@ def main():
 
 
 if __name__ == "__main__":
-    os.system("mysql.server start")
+    server_on = mysql_running()
+    if not server_on:
+        os.system("mysql.server start")
+
     main()
     # os.system("mysql.server stop")
 
