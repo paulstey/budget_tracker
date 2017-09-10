@@ -1,4 +1,3 @@
-#!/usr/env/bin python
 
 def get_categories(filename): 
     categories = [line.rstrip("\n") for line in open(filename)]
