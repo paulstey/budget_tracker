@@ -110,6 +110,7 @@ def months_totals(con, date):
 
     con.commit()
 
+    
 def month_to_date_sum(con, date):
     first_of_month = date[0:8] + "01"
     query = "SELECT sum(amount) FROM (SELECT * FROM purchases WHERE date_purchased >= \'{0}\') tbl1;".format(first_of_month)
@@ -132,7 +133,7 @@ def mysql_running():
 
 
 def main():
-    if sys.argc > 1:
+    if len(sys.argv) > 1:
         multi_purchase = sys.argv[1]
     else:
         multi_purchase = None
