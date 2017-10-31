@@ -58,7 +58,6 @@ class Purchase:
 
     def insert_purchase(self, con, pswd):
         query = self.gen_query()
-        print(query)
 
         try:
             cur = con.cursor()
@@ -67,8 +66,6 @@ class Purchase:
             print("Successfully inserted new purchase")
         except MySQLdb.IntegrityError:
             print("Failed to insert new purchase")
-
-
 
 
 
@@ -91,8 +88,6 @@ def get_value(typ):
 def getpassword():
     pw = getpass("Please enter your password: \n")
     return pw
-
-
 
 
 
