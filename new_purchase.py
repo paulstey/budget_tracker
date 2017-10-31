@@ -132,7 +132,11 @@ def mysql_running():
 
 
 def main():
-    multi_purchase = sys.argv[1]
+    if sys.argc > 1:
+        multi_purchase = sys.argv[1]
+    else:
+        multi_purchase = None
+        
     pswd = getpassword()
     today = datetime.date.today().strftime("%Y-%m-%d")
 
