@@ -58,6 +58,7 @@ class Purchase:
 
     def insert_purchase(self, con, pswd):
         query = self.gen_query()
+        # print(query)
 
         try:
             cur = con.cursor()
@@ -66,6 +67,8 @@ class Purchase:
             print("Successfully inserted new purchase")
         except MySQLdb.IntegrityError:
             print("Failed to insert new purchase")
+
+
 
 
 
@@ -91,6 +94,8 @@ def getpassword():
 
 
 
+
+
 def months_totals(con, date):
     first_of_month = date[0:8] + "01"
     query = "SELECT category, sum(amount) FROM (SELECT * FROM purchases WHERE date_purchased >= \'{0}\') tbl1 GROUP BY category;".format(first_of_month)
@@ -105,7 +110,6 @@ def months_totals(con, date):
 
     con.commit()
 
-    
 def month_to_date_sum(con, date):
     first_of_month = date[0:8] + "01"
     query = "SELECT sum(amount) FROM (SELECT * FROM purchases WHERE date_purchased >= \'{0}\') tbl1;".format(first_of_month)
@@ -128,11 +132,7 @@ def mysql_running():
 
 
 def main():
-    if len(sys.argv) > 1:
-        multi_purchase = sys.argv[1]
-    else:
-        multi_purchase = None
-        
+    multi_purchase = sys.argv[1]
     pswd = getpassword()
     today = datetime.date.today().strftime("%Y-%m-%d")
 
