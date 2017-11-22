@@ -132,7 +132,7 @@ def mysql_running():
 
 
 def main():
-    if len(argv) > 1:
+    if len(sys.argv) > 1:
         multi_purchase = sys.argv[1]
     else:
         multi_purchase = None
