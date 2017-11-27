@@ -98,7 +98,7 @@ def getpassword():
 
 def months_totals(con, date):
     first_of_month = date[0:8] + "01"
-    query = "SELECT category, sum(amount) FROM (SELECT * FROM purchases WHERE date_purchased >= \'{0}\') tbl1 GROUP BY category;".format(first_of_month)
+    query = "SELECT category, sum(amount) AS month_sum FROM (SELECT * FROM purchases WHERE date_purchased >= \'{0}\') tbl1 GROUP BY category ORDER BY month_sum DESC;".format(first_of_month)
 
     cur = con.cursor()
     cur.execute(query)
