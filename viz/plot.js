@@ -1,28 +1,3 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-
-    <head>
-        <style>
-
-        .axis {
-            font: 10px sans-serif;
-        }
-
-        .axis path,
-        .axis line {
-            fill: none;
-            stroke: #000;
-            shape-rendering: crispEdges;
-        }
-    </style>
-
-    <script src="http://d3js.org/d3.v4.min.js"></script>
-    </head>
-
-    <body>
-    
-
-<script>
 
 var margin = {top: 20, right: 20, bottom: 70, left: 40},
     width = 600 - margin.left - margin.right,
@@ -41,16 +16,16 @@ var xAxis = d3.svg.axis()
     .tickFormat(d3.time.format("%Y-%m"));
 
 var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left")
-    .ticks(10);
+                  .scale(y)
+                  .orient("left")
+                  .ticks(10);
 
 var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", 
-          "translate(" + margin.left + "," + margin.top + ")");
+                           .attr("width", width + margin.left + margin.right)
+                           .attr("height", height + margin.top + margin.bottom)
+                           .append("g")
+                           .attr("transform",
+	                         "translate(" + margin.left + "," + margin.top + ")");
 
 d3.csv("bar-data.csv", function(error, data) {
 
@@ -66,7 +41,7 @@ d3.csv("bar-data.csv", function(error, data) {
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis)
-    .selectAll("text")
+      .selectAll("text")
       .style("text-anchor", "end")
       .attr("dx", "-.8em")
       .attr("dy", "-.55em")
@@ -75,7 +50,7 @@ d3.csv("bar-data.csv", function(error, data) {
   svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
-    .append("text")
+      .append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
       .attr("dy", ".71em")
@@ -84,7 +59,7 @@ d3.csv("bar-data.csv", function(error, data) {
 
   svg.selectAll("bar")
       .data(data)
-    .enter().append("rect")
+      .enter().append("rect")
       .style("fill", "steelblue")
       .attr("x", function(d) { return x(d.date); })
       .attr("width", x.rangeBand())
@@ -93,6 +68,6 @@ d3.csv("bar-data.csv", function(error, data) {
 
 });
 
-</script>
 
-</body>
+
+
