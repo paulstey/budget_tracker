@@ -12,7 +12,6 @@ from validate_inputs import purchase_categories
 
 
 class Purchase:
-
     def __init__(self):
         self.amount = get_value("amount")
         self.category = get_value("category")
@@ -64,7 +63,7 @@ class Purchase:
             cur = con.cursor()
             cur.execute(query)
             con.commit()
-            print("Successfully inserted new purchase")
+            print("Successfully inserted new purchase\n")
         except MySQLdb.IntegrityError:
             print("Failed to insert new purchase")
 
@@ -154,11 +153,11 @@ def main():
             purchase = Purchase()
             if purchase.is_correct() == "y" and purchase.valid_inputs(purchase_categories):
                 purchase.insert_purchase(con, pswd)
-                print("Enter another purchase? (y/N)")
+                print("Enter another purchase? (y/N)\n")
                 another_purchase = input() == "y"
             else:
                 print("Canceling purchase. \n\n")
-                print("Would you like to retry? (y/N)")
+                print("Would you like to retry? (y/N)\n")
                 retry = input()
                 if retry != "y":
                     another_purchase = False
@@ -173,7 +172,7 @@ def main():
                 enter_purchase = False
             else:
                 print("Canceling purchase. \n\n")
-                print("Would you like to retry? (y/N)")
+                print("Would you like to retry? (y/N)\n")
                 retry = input()
                 if retry != "y":
                     enter_purchase = False
