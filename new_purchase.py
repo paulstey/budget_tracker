@@ -153,11 +153,11 @@ def main():
             purchase = Purchase()
             if purchase.is_correct() == "y" and purchase.valid_inputs(purchase_categories):
                 purchase.insert_purchase(con, pswd)
-                print("Enter another purchase? (y/N)\n")
+                print("Enter another purchase? (y/N):")
                 another_purchase = input() == "y"
             else:
                 print("Canceling purchase. \n\n")
-                print("Would you like to retry? (y/N)\n")
+                print("Would you like to retry? (y/N):")
                 retry = input()
                 if retry != "y":
                     another_purchase = False
@@ -172,7 +172,7 @@ def main():
                 enter_purchase = False
             else:
                 print("Canceling purchase. \n\n")
-                print("Would you like to retry? (y/N)\n")
+                print("Would you like to retry? (y/N):")
                 retry = input()
                 if retry != "y":
                     enter_purchase = False
