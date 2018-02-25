@@ -4,10 +4,10 @@ import MySQLdb
 import datetime
 import os
 import sys
-from getpass import getpass
 
 # my modules
-from validate_inputs import purchase_categories
+from utils.validate_inputs import purchase_categories
+from utils.password import getpassword
 
 
 
@@ -68,9 +68,6 @@ class Purchase:
             print("Failed to insert new purchase")
 
 
-
-
-
 def get_value(typ):
     if typ == "date":
         print("Enter date (YYYY-MM-DD): ")
@@ -87,14 +84,6 @@ def get_value(typ):
     return val
 
 
-def getpassword():
-    pw = getpass("Please enter your password: \n")
-    return pw
-
-
-
-
-
 def months_totals(con, date):
     first_of_month = date[0:8] + "01"
     query = "SELECT category, sum(amount) AS month_sum FROM (SELECT * FROM purchases WHERE date_purchased >= \'{0}\') tbl1 GROUP BY category ORDER BY month_sum DESC;".format(first_of_month)
@@ -106,8 +95,8 @@ def months_totals(con, date):
     for row in rows:
         print(row[0].ljust(16, " "), row[1])
     print("\n")
-
     con.commit()
+
 
 def month_to_date_sum(con, date):
     first_of_month = date[0:8] + "01"
@@ -128,14 +117,12 @@ def mysql_running():
     return res
 
 
-
-
 def main():
     if len(sys.argv) > 1:
         multi_purchase = sys.argv[1]
     else:
         multi_purchase = None
-        
+
     pswd = getpassword()
     today = datetime.date.today().strftime("%Y-%m-%d")
 
