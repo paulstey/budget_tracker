@@ -11,19 +11,25 @@ pswd = getpassword()
 engine = create_engine('mysql://root:' + pswd + '@localhost/budget')
 
 
-purchases_raw = pd.read_sql_table('purchases', engine)
+df_raw = pd.read_sql_table('purchases', engine)
 
-purchases = purchases_raw.loc[:, ['amount', 'category', 'date_purchased']]
+df = df_raw.loc[:, ['amount', 'category', 'date_purchased']]
 
-purchases_piv = purchases.pivot_table(index = ['date_purchased', 'category'],
-                                      values = 'amount',
-                                      aggfunc = 'sum').reset_index()
+df_long = df.pivot_table(index = ['date_purchased', 'category'],
+                         values = 'amount',
+                         aggfunc = 'sum').reset_index()
 
-purchases_wide = purchases_piv.pivot(index = 'date_purchased',
-                                     columns = 'category',
-                                     values = 'amount').reset_index()
+df_wide = df_long.pivot(index = 'date_purchased',
+                        columns = 'category',
+                        values = 'amount').reset_index()
 
 
-grouper = pd.Grouper(key= 'date_purchased', freq='M')
+grouper = pd.Grouper(key = 'date_purchased', freq = 'M')
 
-grouped_df = purchases_wide.groupby(grouper)
+grouped_wide_df = df_wide.groupby(grouper)
+grouped_long_df = df_long.groupby(grouper)
+
+
+
+df_long.index = df_long['date_purchased']
+df_long_grp = df_long.groupby(df_long.index.month)
