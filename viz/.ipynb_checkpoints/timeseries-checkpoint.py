@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 import plotnine
 
 # my modules
-from .utils.password import getpassword
+from utils.password import getpassword
 
 
 pswd = getpassword()
